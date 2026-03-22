@@ -17,7 +17,7 @@ def playwright() -> Playwright:
 
 @pytest.fixture(scope='session')
 def browser(playwright: Playwright) -> Browser:
-    b = playwright.chromium.launch()
+    b = playwright.chromium.launch(headless=False)
     yield b
     b.close()
 

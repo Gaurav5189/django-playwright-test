@@ -17,7 +17,8 @@
     {{ form.password.errors }}
   </div>
   {% if form.non_field_errors %}
-    <p class="errorlist" data-testid="login-error">{{ form.non_field_errors }}</p>
+    {# non_field_errors renders a ul; do not wrap in <p> (invalid HTML breaks the DOM). #}
+    <div class="form-errors" data-testid="login-error">{{ form.non_field_errors }}</div>
   {% endif %}
   <input type="hidden" name="next" value="{{ next }}">
   <button type="submit" class="btn" data-testid="submit-login">Log in</button>
