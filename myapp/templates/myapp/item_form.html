@@ -1,0 +1,22 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Add item{% endblock %}
+
+{% block content %}
+<h1 data-testid="page-title">Add demo item</h1>
+<form method="post" data-testid="item-form">
+  {% csrf_token %}
+  <div class="field">
+    <label for="{{ form.title.id_for_label }}">Title</label>
+    {{ form.title }}
+    {{ form.title.errors }}
+  </div>
+  <div class="field">
+    <label for="{{ form.notes.id_for_label }}">Notes</label>
+    {{ form.notes }}
+    {{ form.notes.errors }}
+  </div>
+  {{ form.non_field_errors }}
+  <button type="submit" class="btn" data-testid="submit-item">Save</button>
+</form>
+{% endblock %}

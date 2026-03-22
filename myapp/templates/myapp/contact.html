@@ -1,0 +1,28 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+<h1 data-testid="page-title">Contact (demo)</h1>
+<p>Form submissions only show a flash message—nothing is emailed.</p>
+<form method="post" data-testid="contact-form">
+  {% csrf_token %}
+  <div class="field">
+    <label for="{{ form.name.id_for_label }}">Name</label>
+    {{ form.name }}
+    {{ form.name.errors }}
+  </div>
+  <div class="field">
+    <label for="{{ form.email.id_for_label }}">Email</label>
+    {{ form.email }}
+    {{ form.email.errors }}
+  </div>
+  <div class="field">
+    <label for="{{ form.message.id_for_label }}">Message</label>
+    {{ form.message }}
+    {{ form.message.errors }}
+  </div>
+  {{ form.non_field_errors }}
+  <button type="submit" class="btn" data-testid="submit-contact">Send</button>
+</form>
+{% endblock %}

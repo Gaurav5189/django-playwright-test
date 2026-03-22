@@ -1,0 +1,20 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1 data-testid="page-title">Playwright + Django demo</h1>
+<p>
+  This mini-site exercises navigation, forms, database-backed lists, messages,
+  and a login-protected page—useful patterns for end-to-end tests.
+</p>
+<div class="card" data-testid="quick-links">
+  <h2>Try these flows</h2>
+  <ul>
+    <li><a href="{% url 'item_list' %}" data-testid="link-items">Browse demo items</a></li>
+    <li><a href="{% url 'item_add' %}" data-testid="link-add">Create a new item</a></li>
+    <li><a href="{% url 'contact' %}" data-testid="link-contact">Submit the contact form</a></li>
+    <li><a href="{% url 'dashboard' %}" data-testid="link-dashboard">Open the dashboard (requires login)</a></li>
+  </ul>
+</div>
+{% endblock %}

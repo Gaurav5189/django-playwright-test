@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import DemoItem
+
+
+@admin.register(DemoItem)
+class DemoItemAdmin(admin.ModelAdmin):
+    list_display = ("title", "created_at")
+    search_fields = ("title", "notes")

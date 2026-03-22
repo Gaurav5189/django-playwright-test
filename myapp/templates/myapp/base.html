@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Playwright demo{% endblock %} · Django</title>
+  <style>
+    :root {
+      --bg: #f3ebe0;
+      --bg-deep: #ebe3d6;
+      --surface: #fffcf7;
+      --text: #3a3632;
+      --muted: #6e6760;
+      --accent: #7a6349;
+      --accent-hover: #5e4f3d;
+      --success: #5f6f5a;
+      --danger: #a85c54;
+      --border: #e0d8cc;
+      --focus: #b8a892;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      background-image: linear-gradient(180deg, #faf6f0 0%, var(--bg) 32%, var(--bg-deep) 100%);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: var(--accent-hover); text-decoration: underline; }
+    code {
+      font-size: 0.9em;
+      padding: 0.12em 0.35em;
+      border-radius: 4px;
+      background: rgba(0,0,0,0.05);
+      border: 1px solid var(--border);
+    }
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    header nav {
+      display: flex;
+      gap: 1.1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      font-size: 0.95rem;
+    }
+    header .brand {
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    main {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 2rem 1.25rem 3rem;
+    }
+    h1 { font-size: 1.6rem; font-weight: 600; margin: 0 0 1rem; color: var(--text); letter-spacing: -0.02em; }
+    h2 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.75rem; color: var(--text); }
+    p { color: var(--muted); margin: 0 0 1rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-top: 1rem;
+      box-shadow: 0 1px 2px rgba(58, 54, 50, 0.04);
+    }
+    .card ul { margin: 0.5rem 0 0; padding-left: 1.2rem; color: var(--muted); }
+    .card li { margin: 0.35rem 0; }
+    label { display: block; font-size: 0.875rem; margin-bottom: 0.35rem; color: var(--muted); }
+    input[type="text"], input[type="email"], input[type="password"], textarea {
+      width: 100%;
+      padding: 0.55rem 0.7rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #fffefb;
+      color: var(--text);
+      font: inherit;
+    }
+    input:focus, textarea:focus {
+      outline: 2px solid var(--focus);
+      outline-offset: 1px;
+      border-color: #cfc4b4;
+    }
+    .field { margin-bottom: 1rem; }
+    .errorlist { color: var(--danger); font-size: 0.875rem; margin: 0.25rem 0 0; padding-left: 1.1rem; }
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: var(--accent);
+      color: #fffefb;
+      font: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(58, 54, 50, 0.08);
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .btn-secondary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      box-shadow: none;
+    }
+    .btn-secondary:hover {
+      background: #fffefb;
+      border-color: #cfc4b4;
+      color: var(--accent-hover);
+    }
+    ul.items { list-style: none; padding: 0; margin: 0; }
+    ul.items li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    ul.items li:last-child { border-bottom: none; }
+    .messages { list-style: none; padding: 0; margin: 0 0 1rem; }
+    .messages li {
+      padding: 0.65rem 0.85rem;
+      border-radius: 8px;
+      background: #f0ebe3;
+      border: 1px solid #d8cfc2;
+      color: var(--success);
+    }
+    .hint { font-size: 0.8rem; color: var(--muted); margin-top: 1rem; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+  <header data-testid="site-header">
+    <a class="brand" href="{% url 'home' %}" data-testid="nav-home">Playwright demo</a>
+    <nav data-testid="main-nav">
+      <a href="{% url 'item_list' %}" data-testid="nav-items">Items</a>
+      <a href="{% url 'item_add' %}" data-testid="nav-add-item">Add item</a>
+      <a href="{% url 'contact' %}" data-testid="nav-contact">Contact</a>
+      {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" data-testid="nav-dashboard">Dashboard</a>
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-secondary" data-testid="nav-logout">Log out</button>
+        </form>
+      {% else %}
+        <a href="{% url 'login' %}" data-testid="nav-login">Log in</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main data-testid="main-content">
+    {% if messages %}
+      <ul class="messages" data-testid="flash-messages">
+        {% for message in messages %}
+          <li data-testid="flash-message">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

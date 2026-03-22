@@ -1,0 +1,23 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Items{% endblock %}
+
+{% block content %}
+<h1 data-testid="page-title">Demo items</h1>
+<p>Items are stored in SQLite via the <code>DemoItem</code> model.</p>
+{% if items %}
+  <ul class="items" data-testid="item-list">
+    {% for item in items %}
+      <li data-testid="item-row" data-item-id="{{ item.pk }}">
+        <strong data-testid="item-title-text">{{ item.title }}</strong>
+        {% if item.notes %}
+          <div style="color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem;">{{ item.notes }}</div>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p data-testid="empty-state">No items yet. <a href="{% url 'item_add' %}">Add one</a>.</p>
+{% endif %}
+<p><a href="{% url 'item_add' %}" class="btn" data-testid="goto-add">Add item</a></p>
+{% endblock %}

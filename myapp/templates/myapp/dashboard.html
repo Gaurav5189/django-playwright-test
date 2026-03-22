@@ -1,0 +1,9 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 data-testid="page-title">Dashboard</h1>
+<p data-testid="welcome-text">You are signed in as <strong>{{ user.username }}</strong>.</p>
+<p>This page is only visible to authenticated users—ideal for testing login redirects.</p>
+{% endblock %}
